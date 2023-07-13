@@ -6,6 +6,8 @@ import "./styles/NoteList.css"
 import ReactMarkdown from "react-markdown"
 import Top from "./Top"
 import Logo from "./assets/quipper-logo.png"
+import USA from "./assets/usa.png"
+import ISR from "./assets/isr.png"
 
 export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
   const [selectedTags, setSelectedTags] = useState([])
@@ -31,7 +33,16 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
           <img width="200px" src={Logo} alt="" />
           <h3>Snippets</h3>
         </Col>
-
+        <Col>
+          <div className="lang">
+            <Link to="https://quipper.netlify.app">
+              <img src={ISR} alt="" />
+            </Link>
+            <Link to="/">
+              <img src={USA} alt="" />
+            </Link>
+          </div>
+        </Col>
         <Col xs="auto">
           <Stack gap={2} direction="horizontal">
             <Link to="/new">
