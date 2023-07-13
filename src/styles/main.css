@@ -30,7 +30,7 @@ button:active {
   padding: 0.25rem;
 }
 .primary:hover {
-  background: rgb(246, 203, 122);
+  background: rgb(166, 108, 0);
   border:none
 }
 
@@ -40,7 +40,7 @@ button:active {
   padding: 0.25rem;
 }
 .secondary:hover {
-  background: rgb(1, 214, 1);
+  background: rgb(0, 86, 0);
   border:none
 }
 .danger {

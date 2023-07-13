@@ -5,6 +5,7 @@ import ReactSelect from "react-select"
 import "./styles/NoteList.css"
 import ReactMarkdown from "react-markdown"
 import Top from "./Top"
+import Logo from "./assets/quipper-logo.png"
 
 export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
   const [selectedTags, setSelectedTags] = useState([])
@@ -27,8 +28,8 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
     <>
       <Row className="mb-4 align-items-center">
         <Col>
-          <h1 className="logo">קְווִיפֶּר</h1>
-          <img src="./assets/quipper-logo.png" alt="" />
+          <img width="200px" src={Logo} alt="" />
+          <h3>Snippets</h3>
         </Col>
 
         <Col xs="auto">
@@ -72,7 +73,7 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
         <Row className="mb-4">
           <Col>
             <Form.Group controlId="title">
-              <Form.Label>חיפוש טקסט</Form.Label>
+              <Form.Label>Search text</Form.Label>
               <Form.Control
                 type="text"
                 value={title}
@@ -82,7 +83,7 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>חיפוש תגיות</Form.Label>
+              <Form.Label>Search tags</Form.Label>
               <ReactSelect
                 value={selectedTags.map((tag) => {
                   return { label: tag.label, value: tag.id }

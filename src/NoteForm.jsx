@@ -54,7 +54,7 @@ export function NoteForm({
 
   const toggleDirection = (direction) => {
     if (editorRef.current) {
-      editorRef.current.classList.toggle("rtl", direction === "rtl")
+      editorRef.current.classList.toggle("ltr", direction === "ltr")
     }
   }
 
@@ -64,13 +64,13 @@ export function NoteForm({
         <Row>
           <Col>
             <Form.Group controlId="title">
-              <Form.Label>כותרת</Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control ref={titleRef} required defaultValue={title} />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>תגיות</Form.Label>
+              <Form.Label>Tags</Form.Label>
               <CreatableReactSelect
                 onCreateOption={(label) => {
                   const newTag = { id: uuidV4(), label }
@@ -96,7 +96,7 @@ export function NoteForm({
           </Col>
         </Row>
 
-        <div ref={editorRef} className="editor rtl" id="editor"></div>
+        <div ref={editorRef} className="editor ltr" id="editor"></div>
 
         <Stack direction="horizontal" gap={2} className="justify-content-end">
           <button type="submit" className="primary">

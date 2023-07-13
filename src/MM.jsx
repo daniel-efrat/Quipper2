@@ -1,29 +1,29 @@
 import React, { useState, useMemo } from "react"
-import "./styles/ff.css"
+import "./styles/mm.css"
 
-const FF = ({ name, agentName, caseId, issue }) => {
+const MM = ({ name, agentName, caseId, issue }) => {
   const [searchText, setSearchText] = useState("")
 
   const snippets = useMemo(
     () => [
       {
-        title: "פתיחה בצ'אט",
+        title: "Chat Start",
         content: `
-                    היי ${name},
-                    כאן ${agentName} מצוות התמיכה של מטא פרו.
-                    מספר הפנייה שלך להמשך מעקב: ${caseId}.
-                    אני רואה שאתה פונה אלינו בקשר ל${issue},
-                    אשמח לבדוק את העניין בשבילך.
+                    Hello ${name},
+                    My name is ${agentName} from the Meta Pro support team.
+                    Your case ID for future reference: ${caseId}.
+                    I see that you're reaching out regarding ${issue},
+                    I'd be happy to look into that for you.
                 `,
       },
       {
-        content: "תוכל בבקשה לומר לי מה מספר חשבון המודעות?",
+        content: "Could you please tell me your Ad Account ID?",
       },
       {
-        content: `תודה ${name}, ברשותך אקח כחמש דקות לבדוק את הפרטים מהצד שלי. מיד חוזר!`,
+        content: `Thank you ${name}, please allow me 2-3 minutes to take a look at the Account on my end. I'll be right back!`,
       },
       {
-        content: `תודה על ההמתנה ${name}, האם אתה זמין בטלפון ______?`,
+        content: `Thank you for waiting ${name}, could I call you at _________?`,
       },
     ],
     [name, caseId, issue, agentName]
@@ -42,14 +42,14 @@ const FF = ({ name, agentName, caseId, issue }) => {
   }
 
   return (
-    <div>
+    <div dir="ltr">
       {/* Input for searching */}
       <div className="w-250 m-auto">
         <input
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           type="text"
-          placeholder="חיפוש..."
+          placeholder="Search..."
           className="w-250 p-2 m-2 border search_input"
         />
       </div>
@@ -58,7 +58,7 @@ const FF = ({ name, agentName, caseId, issue }) => {
         {filteredSnippets.map((snippet, index) => (
           <div
             key={index}
-            className="d-flex flex-column w-25 p-2 m-2 text-right min-h-230 box"
+            className="d-flex flex-column w-25 p-2 m-2 text-right min-h-230 boxi"
             style={{ minHeight: "230px", wordWrap: "break-word" }}
           >
             <div className="box-body">
@@ -66,7 +66,7 @@ const FF = ({ name, agentName, caseId, issue }) => {
             </div>
             <button
               onClick={() => copyToClipboard(snippet.content)}
-              className="mt-4 copyBtn pinkBtn"
+              className="mt-4 copyBtn blueBtn"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,4 +86,4 @@ const FF = ({ name, agentName, caseId, issue }) => {
   )
 }
 
-export default FF
+export default MM
