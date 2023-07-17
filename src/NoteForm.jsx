@@ -17,39 +17,31 @@ export function NoteForm({
   tags = [],
   isEditing = false, // declare the isEditing prop
 }) {
-
   const titleRef = useRef(null)
   const editorRef = useRef(null)
   const editorInstance = useRef(null) // Keep a reference to editor instance
   const navigate = useNavigate()
 
   useEffect(() => {
-  const options = {
-    el: editorRef.current,
-    height: "500px",
-    initialEditType: "wysiwyg",
-    theme: "light",
-    previewStyle: "tab",
-  };
+    const options = {
+      el: editorRef.current,
+      height: "500px",
+      initialEditType: "wysiwyg",
+      theme: "light",
+      previewStyle: "tab",
+    }
 
-  if (isEditing) {
-    options.initialValue = markdown;
-  }
+    if (isEditing) {
+      options.initialValue = markdown
+    }
 
-  editorInstance.current = new Editor(options);
-
-  return () => {
-    // destroy editor instance to avoid memory leak
-    editorInstance.current?.destroy();
-  };
-}, [isEditing, markdown]);
-
+    editorInstance.current = new Editor(options)
 
     return () => {
       // destroy editor instance to avoid memory leak
       editorInstance.current?.destroy()
     }
-  }, [])
+  }, [isEditing, markdown])
 
   const [selectedTags, setSelectedTags] = useState(tags)
 
@@ -69,7 +61,7 @@ export function NoteForm({
 
   const toggleDirection = (direction) => {
     if (editorRef.current) {
-      editorRef.current.classList.toggle("ltr", direction === "ltr")
+      editorRef.current.classList.toggle("rtl", direction === "rtl")
     }
   }
 
@@ -79,13 +71,13 @@ export function NoteForm({
         <Row>
           <Col>
             <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>כותרת</Form.Label>
               <Form.Control ref={titleRef} required defaultValue={title} />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>תגיות</Form.Label>
               <CreatableReactSelect
                 onCreateOption={(label) => {
                   const newTag = { id: uuidV4(), label }
@@ -111,7 +103,7 @@ export function NoteForm({
           </Col>
         </Row>
 
-        <div ref={editorRef} className="editor ltr" id="editor"></div>
+        <div ref={editorRef} className="editor rtl" id="editor"></div>
 
         <Stack direction="horizontal" gap={2} className="justify-content-end">
           <button type="submit" className="primary">
