@@ -7,6 +7,17 @@ import "./styles/Note.css"
 
 
 export function Note({ onDelete }) {
+  const {
+    agentName,
+    setAgentName,
+    clientName,
+    setClientName,
+    caseId,
+    setCaseId,
+    issue,
+    setIssue,
+  } = useContext(TopContext)
+
   const note = useNote()
   const navigate = useNavigate()
 

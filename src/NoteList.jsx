@@ -1,18 +1,26 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useContext, useEffect } from "react"
 import { Badge, Card, Col, Form, Modal, Row, Stack } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import ReactSelect from "react-select"
 import "./styles/NoteList.css"
 import ReactMarkdown from "react-markdown"
 import Top from "./Top"
+import { TopContext } from "./Top"
 import Logo from "./assets/quipper-logo.png"
 import USA from "./assets/usa.png"
 import ISR from "./assets/isr.png"
 
-export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
+export function NoteList({
+  availableTags,
+  notes,
+  onUpdateTag,
+  onDeleteTag,
+ 
+}) {
   const [selectedTags, setSelectedTags] = useState([])
   const [title, setTitle] = useState("")
   const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false)
+  const { agentName, clientName, caseId, issue } = useContext(TopContext)
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -123,6 +131,10 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
               title={note.title}
               tags={note.tags}
               markdown={note.markdown}
+              agentName={agentName}
+              clientName={clientName}
+              caseId={caseId}
+              issue={issue}
             />
           </Col>
         ))}
@@ -138,13 +150,48 @@ export function NoteList({ availableTags, notes, onUpdateTag, onDeleteTag }) {
   )
 }
 
-function NoteCard({ id, title, tags, markdown }) {
+function NoteCard({
+  id,
+  title,
+  tags,
+  markdown,
+  agentName,
+  clientName,
+  caseId,
+  issue,
+}) {
+  const [renderedMarkdown, setRenderedMarkdown] = useState("")
+
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(markdown).then(() => {
+    navigator.clipboard.writeText(renderedMarkdown).then(() => {
       console.log("Markdown text copied to clipboard")
     })
   }
 
+  useEffect(() => {
+    // Function to render the markdown
+    const renderMarkdown = () => {
+      let markdownToRender = markdown
+      const variables = {
+        clientName,
+        agentName,
+        caseId,
+        issue,
+      }
+      for (const [key, value] of Object.entries(variables)) {
+        markdownToRender = markdownToRender.replace(
+          new RegExp(`\\[${key}\\]`, "g"),
+          value
+        )
+      }
+      return markdownToRender
+    }
+  
+
+    // Render the markdown
+    setRenderedMarkdown(renderMarkdown())
+  }, [markdown, agentName, clientName, caseId, issue]) // Re-render when these values change
+console.log({ agentName, clientName, caseId, issue })
   return (
     <div className="h-100 text-reset text-decoration-none card">
       <Card.Body>
@@ -167,7 +214,8 @@ function NoteCard({ id, title, tags, markdown }) {
             </Stack>
           )}
           <div className="note-content">
-            <ReactMarkdown>{markdown}</ReactMarkdown>
+            <ReactMarkdown>{renderedMarkdown}</ReactMarkdown>{" "}
+            {/* Use the renderedMarkdown state here */}
           </div>
           <div className="cardBtns">
             {/* Edit button */}
@@ -182,9 +230,9 @@ function NoteCard({ id, title, tags, markdown }) {
                   >
                     <path
                       fill="#FFF"
-                      fill-rule="evenodd"
-                      d="M7.5 11c-2.697 0-4.97-1.378-6.404-3.5C2.53 5.378 4.803 4 7.5 4s4.97 1.378 6.404 3.5C12.47 9.622 10.197 11 7.5 11Zm0-8C4.308 3 1.656 4.706.076 7.235a.5.5 0 0 0 0 .53C1.656 10.294 4.308 12 7.5 12s5.844-1.706 7.424-4.235a.5.5 0 0 0 0-.53C13.344 4.706 10.692 3 7.5 3Zm0 6.5a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      d="M7.5 11c-2.697 0-4.97-1.378-6.404-3.5C2.53 5.378 4.803 4 7.5 4s4.97 1.378 6.404 3.5C12.47 9.622 10.197 11 7.5 11Zm0-8C4.308 3 1.656 4.706.076 7.235a.5.5 0 0 0 0 .53C1.656 10.294 4.308 12 7.5 12s5.844-1.706 7.424-4.235a.5.5 0 0 0 0-.53C13.344 4.706 10.692 3 7.5 3Zm0 6.5a2 2 0 1 0 0-4a2 2 0 0 0 0 4Zm3-10H5V5h10v4Z"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </button>
@@ -211,6 +259,8 @@ function NoteCard({ id, title, tags, markdown }) {
     </div>
   )
 }
+
+
 function EditTagsModal({
   availableTags,
   handleClose,

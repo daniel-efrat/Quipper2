@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Container } from "react-bootstrap"
 import { Routes, Route, Navigate } from "react-router-dom"
 import { NewNote } from "./NewNote"
@@ -10,8 +10,14 @@ import { NoteLayout } from "./NoteLayout"
 import { Note } from "./Note"
 import { EditNote } from "./EditNote"
 import "./styles/main.css"
+import { TopContext } from "./Top"
+
 
 function App() {
+  const [agentName, setAgentName] = useState("")
+  const [clientName, setClientName] = useState("")
+  const [caseId, setCaseId] = useState("")
+  const [issue, setIssue] = useState("")
   const [notes, setNotes] = useLocalStorage("NOTES", [])
   const [tags, setTags] = useLocalStorage("TAGS", [])
 
@@ -75,43 +81,65 @@ function App() {
 
   return (
     <Container className="my-4 wrap">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <NoteList
-              notes={notesWithTags}
-              availableTags={tags}
-              onUpdateTag={updateTag}
-              onDeleteTag={deleteTag}
-            />
-          }
-        />
-        <Route
-          path="/new"
-          element={
-            <NewNote
-              onSubmit={onCreateNote}
-              onAddTag={addTag}
-              availableTags={tags}
-            />
-          }
-        />
-        <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note onDelete={onDeleteNote} />} />
+      <TopContext.Provider
+        value={{
+          agentName,
+          setAgentName,
+          clientName,
+          setClientName,
+          caseId,
+          setCaseId,
+          issue,
+          setIssue,
+        }}
+      >
+        <Routes>
           <Route
-            path="edit"
+            path="/"
             element={
-              <EditNote
-                onSubmit={onUpdateNote}
+              <NoteList
+                notes={notesWithTags}
+                availableTags={tags}
+                onUpdateTag={updateTag}
+                onDeleteTag={deleteTag}
+                agentName={agentName}
+                setAgentName={setAgentName}
+                clientName={clientName}
+                setClientName={setClientName}
+                caseId={caseId}
+                setCaseId={setCaseId}
+                issue={issue}
+                setIssue={setIssue}
+              />
+            }
+          />
+          } />
+          <Route
+            path="/new"
+            element={
+              <NewNote
+                onSubmit={onCreateNote}
                 onAddTag={addTag}
                 availableTags={tags}
               />
             }
           />
-        </Route>
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+          <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
+            <Route index element={<Note onDelete={onDeleteNote} />} />
+            <Route
+              path="edit"
+              element={
+                <EditNote
+                  onSubmit={onUpdateNote}
+                  onAddTag={addTag}
+                  availableTags={tags}
+                />
+              }
+            />
+          </Route>
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </TopContext.Provider>
     </Container>
   )
 }

@@ -15,20 +15,35 @@ export function NoteForm({
   title = "",
   markdown = "",
   tags = [],
+  isEditing = false, // declare the isEditing prop
 }) {
+
   const titleRef = useRef(null)
   const editorRef = useRef(null)
   const editorInstance = useRef(null) // Keep a reference to editor instance
   const navigate = useNavigate()
 
   useEffect(() => {
-    editorInstance.current = new Editor({
-      el: editorRef.current,
-      height: "500px",
-      initialEditType: "wysiwyg",
-      theme: "light",
-      previewStyle: "tab",
-    })
+  const options = {
+    el: editorRef.current,
+    height: "500px",
+    initialEditType: "wysiwyg",
+    theme: "light",
+    previewStyle: "tab",
+  };
+
+  if (isEditing) {
+    options.initialValue = markdown;
+  }
+
+  editorInstance.current = new Editor(options);
+
+  return () => {
+    // destroy editor instance to avoid memory leak
+    editorInstance.current?.destroy();
+  };
+}, [isEditing, markdown]);
+
 
     return () => {
       // destroy editor instance to avoid memory leak
