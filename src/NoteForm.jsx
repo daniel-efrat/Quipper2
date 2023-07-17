@@ -103,7 +103,7 @@ export function NoteForm({
           </Col>
         </Row>
 
-        <div ref={editorRef} className="editor rtl" id="editor"></div>
+        <div ref={editorRef} className="editor ltr" id="editor"></div>
 
         <Stack direction="horizontal" gap={2} className="justify-content-end">
           <button type="submit" className="primary">

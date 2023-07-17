@@ -5,42 +5,28 @@ import ReactMarkdown from "react-markdown"
 import Logo from "./assets/quipper-logo.png"
 import "./styles/Note.css"
 
-
 export function Note({ onDelete }) {
-  const {
-    agentName,
-    setAgentName,
-    clientName,
-    setClientName,
-    caseId,
-    setCaseId,
-    issue,
-    setIssue,
-  } = useContext(TopContext)
-
   const note = useNote()
   const navigate = useNavigate()
 
   return (
     <>
-
       <img width="200px" src={Logo} alt="" />
-    <div className="wrapper">
+      <div className="wrapper">
         <div className="snippetBlock">
-            
-           <div className="title-tags">
+          <div className="title-tags">
             <h3>{note.title}</h3>
-             {note.tags.length > 0 && (
-               <Stack gap={1} direction="horizontal" className="flex-wrap">
-                 {note.tags.map((tag) => (
-                   <Badge className="text-truncate" key={tag.id}>
-                     {tag.label}
-                   </Badge>
-                 ))}
-               </Stack>
-             )}
+            {note.tags.length > 0 && (
+              <Stack gap={1} direction="horizontal" className="flex-wrap">
+                {note.tags.map((tag) => (
+                  <Badge className="text-truncate" key={tag.id}>
+                    {tag.label}
+                  </Badge>
+                ))}
+              </Stack>
+            )}
           </div>
-      
+
           <div className="buttons" xs="auto">
             <Stack gap={2} direction="horizontal">
               <Link to={`/${note.id}/edit`}>
@@ -90,12 +76,11 @@ export function Note({ onDelete }) {
               </Link>
             </Stack>
           </div>
-      
         </div>
-       <div className="snippetContent">
-         <ReactMarkdown className="md">{note.markdown}</ReactMarkdown>
-       </div>
-    </div>
+        <div className="snippetContent">
+          <ReactMarkdown className="md">{note.markdown}</ReactMarkdown>
+        </div>
+      </div>
     </>
   )
 }

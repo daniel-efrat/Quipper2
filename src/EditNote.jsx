@@ -7,7 +7,7 @@ export function EditNote({ onSubmit, onAddTag, availableTags }) {
     <>
       <h1 className="mb-4">Edit</h1>
       <NoteForm
-        isEditing={true} // add this line
+        isEditing={true}
         title={note.title}
         markdown={note.markdown}
         tags={note.tags}
