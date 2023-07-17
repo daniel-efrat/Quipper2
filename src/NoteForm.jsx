@@ -71,13 +71,13 @@ export function NoteForm({
         <Row>
           <Col>
             <Form.Group controlId="title">
-              <Form.Label>כותרת</Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control ref={titleRef} required defaultValue={title} />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group controlId="tags">
-              <Form.Label>תגיות</Form.Label>
+              <Form.Label>Tags</Form.Label>
               <CreatableReactSelect
                 onCreateOption={(label) => {
                   const newTag = { id: uuidV4(), label }
